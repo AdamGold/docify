@@ -25,8 +25,9 @@ class Docify
     protected $file_contents = '';
 
     /**
-     * Parse file's comments
-     * 
+     * parse file's comments
+     *
+     * @param  string $file file name
      * @param  boolean $print print or return
      * 
      * @return array return array of comments if $print=1
@@ -44,6 +45,13 @@ class Docify
         print_r($parse);
     }
 
+    /**
+     * get all docblocks from file
+     * 
+     * @param  string $source file contents
+     * 
+     * @return array array of docblocks
+     */
     protected function match($source)
     {
         $comments = array();
@@ -74,7 +82,11 @@ class Docify
     }
 
     /**
-     * Parse each line in the docblock
+     * parse all docblocks and return organized array
+     * 
+     * @param  array $comments array of docblocks
+     * 
+     * @return array $docblocks organized array
      */
     protected function parse_block($comments) {
         $comment_lines = array();
@@ -93,6 +105,8 @@ class Docify
 
             $comment_lines[ $key ] = array_filter($comment);
             foreach ($comment_lines[ $key ] as $tag => $value) {
+                $docblocks[ $key ]['summary'] = $comment_lines[ $key ][1];
+
                 $info = preg_replace('/^(\*\s+?)/', '', $value);
                 // Get comment params
                 if ($info[0] === "@") {
@@ -102,7 +116,7 @@ class Docify
                     $tag_value = str_replace("@$tag_type ", '', $info);
                     $docblocks[ $key ]['tags'][] = array( 'type' => $tag_type, 'value' => trim($tag_value) );
                 }
-                $docblocks[ $key ]['summary'] = $comment_lines[ $key ][1];
+
             }
         }
 
