@@ -1,5 +1,4 @@
 <?php
-//require 'vendors/autoload.php';
 require 'lib/docify/Docify.php';
 
 use docify\Docify;
