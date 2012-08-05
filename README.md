@@ -8,9 +8,12 @@ Creates an array of comments from a specific file.
 Usage
 ======
 
-`require 'lib/docify/Docify.php';
+<code>
+&lt;?php
+require 'lib/docify/Docify.php';
 
 use docify\Docify;
 
 $docify = new Docify;
-$docify->parse('test.php');`
+$docify->parse('test.php');
+</code>
