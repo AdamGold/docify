@@ -109,12 +109,14 @@ class Docify
 
                 $info = preg_replace('/^(\*\s+?)/', '', $value);
                 // Get comment params
-                if ($info[0] === "@") {
+                if ($info[0] === '@') {
                     // Get the param name
                     preg_match('/@(\w+)/', $info, $matches);
                     $tag_type = $matches[1];
                     $tag_value = str_replace("@$tag_type ", '', $info);
                     $docblocks[ $key ]['tags'][] = array( 'type' => $tag_type, 'value' => trim($tag_value) );
+                } elseif ($info[0] === '$') {
+                    $docblocks[ $key ]['example'] = $this->gfm($info);
                 }
 
             }
