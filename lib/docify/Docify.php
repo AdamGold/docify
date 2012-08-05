@@ -135,7 +135,7 @@ class Docify
         # Extract pre blocks
         $extractions = array();
 
-        $text = preg_replace_callback('/<pre>.*?<\/pre>/s', function($matches) use (&$extractions){
+        $text = preg_replace_callback('/<pre>.*?<\/pre>/s', function($matches) use (&$extractions) {
             $match = $matches[0];
             $md5 = md5($match);
             $extractions[$md5] = $match;
@@ -143,7 +143,7 @@ class Docify
         }, $text);
 
         # prevent foo_bar_baz from ending up with an italic word in the middle
-        $text = preg_replace_callback('/(^(?! {4}|\t)\w+_\w+_\w[\w_]*)/s', function($matches){
+        $text = preg_replace_callback('/(^(?! {4}|\t)\w+_\w+_\w[\w_]*)/s', function($matches) {
             $x = $matches[0];
             $x_parts = str_split($x);
             sort($x_parts);
@@ -163,7 +163,7 @@ class Docify
         }, $text);
 
         # Insert pre block extractions
-        $text = preg_replace_callback('/\{gfm-extraction-([0-9a-f]{32})\}/', function($matches) use (&$extractions){
+        $text = preg_replace_callback('/\{gfm-extraction-([0-9a-f]{32})\}/', function($matches) use (&$extractions) {
             $match = $matches[1];
             return "\n\n" . $extractions[$match];
         }, $text);
