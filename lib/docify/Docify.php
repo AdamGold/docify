@@ -35,12 +35,13 @@ class Docify
     {
         $absolute_path = dirname(dirname(__DIR__));
         $source = file_get_contents($absolute_path . '/' . $file);
-        $parse = $this->match($source);
+        $comments = $this->match($source);
+        $parse = $this->parse_block($comments);
         if ( ! $print ) {
             return $parse;
         }
         echo "<pre>";
-        var_dump($parse);
+        print_r($parse);
     }
 
     protected function match($source)
@@ -70,5 +71,41 @@ class Docify
         }
 
         return $comments;
+    }
+
+    /**
+     * Parse each line in the docblock
+     */
+    protected function parse_block($comments) {
+        $comment_lines = array();
+        $docblocks = array();
+        foreach ($comments as $key => $comment) {
+            // Strip the opening and closing tags of the docblock
+            $comment = substr($comment, 3, -2);
+
+            // Split into arrays of lines
+            $comment = preg_split('/\r?\n\r?/', $comment);
+
+            // Trim asterisks and whitespace from the beginning and whitespace from the end of lines
+            $comment = array_map(function($line) {
+              return ltrim(rtrim($line), "* \t\n\r\0\x0B");
+            }, $comment);
+
+            $comment_lines[ $key ] = array_filter($comment);
+            foreach ($comment_lines[ $key ] as $tag => $value) {
+                $info = preg_replace('/^(\*\s+?)/', '', $value);
+                // Get comment params
+                if ($info[0] === "@") {
+                    // Get the param name
+                    preg_match('/@(\w+)/', $info, $matches);
+                    $tag_type = $matches[1];
+                    $tag_value = str_replace("@$tag_type ", '', $info);
+                    $docblocks[ $key ]['tags'][] = array( 'type' => $tag_type, 'value' => trim($tag_value) );
+                }
+                $docblocks[ $key ]['summary'] = $comment_lines[ $key ][1];
+            }
+        }
+
+        return $docblocks;
     }
 } // END class Docify
