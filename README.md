@@ -1,7 +1,7 @@
 docify
 ======
 
-Creates an array of comments from a specific file.
+Parses docblocks from a specific file and builds an organized array for each docblock.
 
 ======
 
