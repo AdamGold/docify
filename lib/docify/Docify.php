@@ -40,7 +40,7 @@ class Docify
             return $parse;
         }
         echo "<pre>";
-        print_r($parse);
+        var_dump($parse);
     }
 
     protected function match($source)
@@ -51,11 +51,6 @@ class Docify
         $tokens = mb_strlen($source);
         for ($i = 0; $i < $tokens; $i++) {
             $char = $source[ $i ];
-            // we don't want to check spaces..
-            if ($char == ' ') {
-                continue;
-            }
-
             // We have a start of a comment!
             if (($char == '/') && ($source[ $i+1 ] == '*') && ($source[ $i+2 ] == '*')) {
                 $inside = true;
@@ -70,6 +65,7 @@ class Docify
             if (($char == '*') && ($source[ $i+1 ] == '/')) {
                 $inside = false;
                 $comments[] = $comment;
+                $comment = '';
             }
         }
 
