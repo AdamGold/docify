@@ -83,12 +83,18 @@ class Docify
 
     /**
      * parse all docblocks and return organized array
+     *
+     * Credits:
+     *
+     * https://gist.github.com/3131887
+     * https://github.com/icio/PHP-DocBlock-Parser/blob/master/docblock-parser.php
      * 
      * @param  array $comments array of docblocks
      * 
      * @return array $docblocks organized array
      */
-    protected function parse_block($comments) {
+    protected function parse_block($comments)
+    {
         $comment_lines = array();
         $docblocks = array();
         foreach ($comments as $key => $comment) {
@@ -127,6 +133,10 @@ class Docify
 
     /**
      * github markdown
+     *
+     * Taken from: https://gist.github.com/3194002
+     * 
+     * @author: koenpunt
      * 
      * @param string $text text to parse
      * 
