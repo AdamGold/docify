@@ -22,8 +22,6 @@ namespace docify;
  */
 class Docify
 {
-    protected $file_contents = '';
-
     /**
      * parse file's comments
      *
