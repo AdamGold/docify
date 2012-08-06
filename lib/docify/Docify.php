@@ -39,7 +39,6 @@ class Docify
         if ( ! $print ) {
             return $parse;
         }
-        echo "<pre>";
         print_r($parse);
     }
 
