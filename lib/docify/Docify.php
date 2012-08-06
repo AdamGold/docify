@@ -39,7 +39,7 @@ class Docify
         if ( ! $print ) {
             return $parse;
         }
-
+        echo "<pre>";
         print_r($parse);
     }
 
@@ -94,6 +94,7 @@ class Docify
     {
         $comment_lines = array();
         $docblocks = array();
+        $matches = array();
         foreach ($comments as $key => $comment) {
             // Strip the opening and closing tags of the docblock
             $comment = substr($comment, 3, -2);
@@ -114,13 +115,10 @@ class Docify
                 $line = trim($line);
                 // Get comment params
                 if ($line[0] === '@') {
-                    // Get tag type
                     $line = htmlspecialchars($line);
-                    $line = str_replace('@', '', $line);
-                    $tag_type = preg_replace('!\s+!', ' ', $line);
-                    $tag_type = explode(' ', $tag_type);
-                    $tag_type = $tag_type[0];
-                    $tag_value = str_replace("$tag_type", '', $line);
+                    $tag_value = substr($line, strpos($line, ' '));
+                    $tag_type = str_replace($tag_value, '', $line);
+                    $tag_type = str_replace('@', '', $tag_type);
                     $docblocks[ $key ]['tags'][] = array( 'type' => $tag_type, 'value' => trim($tag_value) );
                 } elseif ($line[0] === '$') {
                     $docblocks[ $key ]['example'] = $this->gfm($line);
