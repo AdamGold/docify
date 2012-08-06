@@ -86,8 +86,11 @@ class Docify
      *
      * Credits:
      *
-     * https://gist.github.com/3131887
-     * https://github.com/icio/PHP-DocBlock-Parser/blob/master/docblock-parser.php
+     * BaylorRae: https://gist.github.com/3131887
+     * icio:      https://github.com/icio/PHP-DocBlock-Parser/blob/master/docblock-parser.php
+     *
+     * @author
+     * @author
      * 
      * @param  array $comments array of docblocks
      * 
