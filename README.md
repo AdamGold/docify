@@ -15,5 +15,10 @@ require 'lib/docify/Docify.php'; // Path to Docify.php
 use docify\Docify;
 
 $docify = new Docify;
-$docify->parse('FILETOPARSE.php'); // File you want to parse
+
+// print array
+$docify->parse('FILETOPARSE.php', true);
+
+// get array
+$parsed_array = $docify->parse('FILETOPARSE.php', false);
 </pre>

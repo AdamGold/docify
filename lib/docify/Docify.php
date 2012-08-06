@@ -39,7 +39,7 @@ class Docify
         if ( ! $print ) {
             return $parse;
         }
-        echo "<pre>";
+
         print_r($parse);
     }
 
@@ -84,11 +84,7 @@ class Docify
      *
      * Credits:
      *
-     * BaylorRae: https://gist.github.com/3131887
      * icio:      https://github.com/icio/PHP-DocBlock-Parser/blob/master/docblock-parser.php
-     *
-     * @author
-     * @author
      * 
      * @param  array $comments array of docblocks
      * 
@@ -114,16 +110,20 @@ class Docify
             foreach ($comment_lines[ $key ] as $tag => $value) {
                 $docblocks[ $key ]['summary'] = $comment_lines[ $key ][1];
 
-                $info = preg_replace('/^(\*\s+?)/', '', $value);
+                $line = str_replace('*', '', trim($value));
+                $line = trim($line);
                 // Get comment params
-                if ($info[0] === '@') {
-                    // Get the param name
-                    preg_match('/@(\w+)/', $info, $matches);
-                    $tag_type = $matches[1];
-                    $tag_value = str_replace("@$tag_type ", '', $info);
+                if ($line[0] === '@') {
+                    // Get tag type
+                    $line = htmlspecialchars($line);
+                    $line = str_replace('@', '', $line);
+                    $tag_type = preg_replace('!\s+!', ' ', $line);
+                    $tag_type = explode(' ', $tag_type);
+                    $tag_type = $tag_type[0];
+                    $tag_value = str_replace("$tag_type", '', $line);
                     $docblocks[ $key ]['tags'][] = array( 'type' => $tag_type, 'value' => trim($tag_value) );
-                } elseif ($info[0] === '$') {
-                    $docblocks[ $key ]['example'] = $this->gfm($info);
+                } elseif ($line[0] === '$') {
+                    $docblocks[ $key ]['example'] = $this->gfm($line);
                 }
 
             }
