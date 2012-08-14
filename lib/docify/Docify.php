@@ -15,7 +15,7 @@ namespace docify;
 /**
  * Docify Class
  *
- * @category  [ Category ]
+ * @package   Docify
  * @author    AdamGold <adamgold7@gmail.com>
  * @copyright 2012 AdamGold
  * @version   1.0
